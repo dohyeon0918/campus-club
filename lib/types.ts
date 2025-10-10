@@ -1,7 +1,8 @@
 // Firestore users 컬렉션의 사용자 정보 타입
 export interface User {
   uid: string;           // Firebase Authentication UID (고유 ID)
-  email: string;         // 이메일
+  email: string;         // 이메일 (Google)
+  schoolEmail: string;   // 학교 이메일 (인증 완료됨)
   nickname: string;      // 닉네임
   school: string;        // 학교
   major: string;         // 전공
@@ -14,6 +15,7 @@ export interface SignUpFormData {
   nickname: string;
   school: string;
   major: string;
+  schoolEmail: string;
 }
 
 // Firestore hubs 컬렉션의 허브(그룹) 정보 타입
