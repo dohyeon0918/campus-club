@@ -10,11 +10,11 @@
 
 **Sub-Tasks (개발 작업 목록):**
 
-- [ ]  Firebase 프로젝트 생성 및 Authentication(인증) 설정
-- [ ]  학교 웹메일로 인증 코드를 보내고 확인하는 로직 구현
-- [ ]  Firestore에 `users` 컬렉션 구조 설계 (uid, nickname, school, major, verifiedAt 등)
-- [ ]  Firestore 보안 규칙 설정 (인증된 사용자만 `users` 정보 생성 가능)
-- [ ]  회원가입/로그인 UI 구현
+- [x]  Firebase 프로젝트 생성 및 Authentication(인증) 설정
+- [x]  학교 웹메일로 인증 코드를 보내고 확인하는 로직 구현
+- [x]  Firestore에 `users` 컬렉션 구조 설계 (uid, nickname, school, major, verifiedAt 등)
+- [x]  Firestore 보안 규칙 설정 (인증된 사용자만 `users` 정보 생성 가능)
+- [x]  회원가입/로그인 UI 구현
 
 ---
 
