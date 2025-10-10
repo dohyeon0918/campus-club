@@ -34,8 +34,14 @@ service cloud.firestore {
       // 생성: 로그인한 사용자만
       allow create: if isSignedIn();
 
-      // 수정/삭제: 허브 소유자만
-      allow update, delete: if isSignedIn() && request.auth.uid == resource.data.ownerId;
+      // 수정: 허브 소유자 또는 memberCount만 변경하는 경우
+      allow update: if isSignedIn() && (
+        request.auth.uid == resource.data.ownerId ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberCount'])
+      );
+
+      // 삭제: 허브 소유자만
+      allow delete: if isSignedIn() && request.auth.uid == resource.data.ownerId;
     }
 
     // memberships 컬렉션
@@ -58,8 +64,14 @@ service cloud.firestore {
       // 생성: 로그인한 사용자가 자신을 작성자로
       allow create: if isSignedIn() && request.auth.uid == request.resource.data.authorId;
 
-      // 수정/삭제: 작성자만
-      allow update, delete: if isSignedIn() && request.auth.uid == resource.data.authorId;
+      // 수정: 작성자 또는 commentCount만 변경하는 경우
+      allow update: if isSignedIn() && (
+        request.auth.uid == resource.data.authorId ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['commentCount'])
+      );
+
+      // 삭제: 작성자만
+      allow delete: if isSignedIn() && request.auth.uid == resource.data.authorId;
     }
 
     // comments 컬렉션

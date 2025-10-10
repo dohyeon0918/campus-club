@@ -6,8 +6,11 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { firestore, auth } from '@/lib/firebase';
 import { Hub } from '@/lib/types';
 import Link from 'next/link';
+import { useRequireAuth } from '@/lib/useAuth';
 
 export default function HubsPage() {
+  useRequireAuth(); // 회원가입 확인
+
   const router = useRouter();
   const [hubs, setHubs] = useState<Hub[]>([]);
   const [loading, setLoading] = useState(true);

@@ -5,8 +5,11 @@ import { useRouter, useParams } from 'next/navigation';
 import { collection, addDoc, doc, getDoc, query, where, getDocs } from 'firebase/firestore';
 import { auth, firestore } from '@/lib/firebase';
 import { CreatePostFormData, Post } from '@/lib/types';
+import { useRequireAuth } from '@/lib/useAuth';
 
 export default function CreatePostPage() {
+  useRequireAuth(); // 회원가입 확인
+
   const router = useRouter();
   const params = useParams();
   const hubId = params.id as string;

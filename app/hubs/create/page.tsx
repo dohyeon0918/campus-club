@@ -5,8 +5,11 @@ import { useRouter } from 'next/navigation';
 import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '@/lib/firebase';
 import { CreateHubFormData, Hub, Membership } from '@/lib/types';
+import { useRequireAuth } from '@/lib/useAuth';
 
 export default function CreateHubPage() {
+  useRequireAuth(); // 회원가입 확인
+
   const router = useRouter();
   const [formData, setFormData] = useState<CreateHubFormData>({
     name: '',
