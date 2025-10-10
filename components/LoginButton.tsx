@@ -10,6 +10,7 @@ export default function LoginButton() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   useEffect(() => {
     // 로그인 상태 실시간 감지
@@ -19,10 +20,9 @@ export default function LoginButton() {
       // 로그인 성공 후 Firestore에 사용자 정보가 있는지 확인
       if (currentUser) {
         const userDoc = await getDoc(doc(firestore, 'users', currentUser.uid));
-        if (!userDoc.exists()) {
-          // 신규 사용자: 회원가입 페이지로 리다이렉트
-          router.push('/signup');
-        }
+        setIsRegistered(userDoc.exists());
+      } else {
+        setIsRegistered(false);
       }
 
       setLoading(false);
@@ -60,7 +60,34 @@ export default function LoginButton() {
   }
 
   if (user) {
-    // 로그인된 상태
+    // 로그인했지만 회원가입 미완료
+    if (!isRegistered) {
+      // "나중에 하기" 클릭했는지 체크
+      const skipSignup = typeof window !== 'undefined' ? sessionStorage.getItem('skipSignup') : null;
+
+      if (!skipSignup) {
+        // 나중에 하기 안 했으면 회원가입 페이지로 자동 이동
+        router.push('/signup');
+        return null;
+      }
+
+      // 나중에 하기 했으면 안내 메시지만 표시
+      return (
+        <div className="flex flex-col items-center gap-3">
+          <p className="text-sm text-gray-600">
+            회원가입을 완료하면 모든 기능을 사용할 수 있어요
+          </p>
+          <button
+            onClick={() => router.push('/signup')}
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            회원가입 완료하기
+          </button>
+        </div>
+      );
+    }
+
+    // 로그인 + 회원가입 완료
     return (
       <div className="flex items-center gap-4">
         {user.photoURL && (
